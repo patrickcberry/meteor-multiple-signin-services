@@ -1,0 +1,28 @@
+<head>
+  <title>meteor-multiple-authentication-services</title>
+</head>
+
+<body>
+  <h1>meteor-multiple-authentication-services</h1>
+
+  <p>
+    Application to resolve issue with multiple accounts being created for the 
+    same user (same email address) when using external authenticaton services (Google, Facebook, etc.)
+  </p>
+
+  {{> loginButtons}}
+
+  <hr>
+
+  {{> users}}
+
+</body>
+
+<template name="users">
+  {{#each users}}
+    <p>
+      {{_id}}
+    </p>
+  {{/each}}
+</template>
+
