@@ -6,5 +6,18 @@
   },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0"
-  }
+  },
+  "description": "Issue to prevent multiple account creation when using external authorization services",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickcberry/meteor-multiple-signin-services.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patrickcberry/meteor-multiple-signin-services/issues"
+  },
+  "homepage": "https://github.com/patrickcberry/meteor-multiple-signin-services#readme"
 }

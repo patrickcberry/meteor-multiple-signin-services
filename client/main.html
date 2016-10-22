@@ -14,15 +14,42 @@
 
   <hr>
 
+  <p>Total users: {{userCount}}</p>
+
   {{> users}}
 
 </body>
 
 <template name="users">
+
   {{#each users}}
+
+    <h3>User:</h3>
     <p>
       {{_id}}
     </p>
+
+    <h3>Emails:</h3>
+    <ul>
+      {{#each emails}}
+        <li>{{address}}</li>
+      {{/each}}
+    </ul>
+
+    <h3>Services:</h3>
+    <ul>
+      {{#each services}}
+        <li>{{key}}</li>
+        <ul>
+          <li>{{email}}</li>
+          <li>{{name}}</li>
+        </ul>
+      {{/each}}
+    </ul>    
+
+    <hr>
+
   {{/each}}
+
 </template>
 
