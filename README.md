@@ -1,6 +1,6 @@
 # meteor-multiple-signin-services
 
-* TODO
+## TODO
 
 - [ ] Clean up all code 
 - [ ] Store profile info in a common application object attached to the Meteor.user object (email, name, locale)
@@ -9,12 +9,12 @@
 
 ----
 
-# The problem
+## The problem
 
 When using multiple login providers (accounts-password, accounts-google, accounts-facebook etc.) in Meteor each services 
 will create a seperate user in the Meteor.users collection even if the account is associated with the same email address.
 
-# The solution
+## The solution
 
 Implement code in the Accounts.onCreateUser function to,
 
@@ -22,21 +22,21 @@ Implement code in the Accounts.onCreateUser function to,
 * Determine if the email address is associated with an existing account
 * If email exists, merge the two accounts
 
-# Usage
+## Usage
 
-## Packages
+### Packages
 
 Include the following packages,
 * __TBC__
 
-## Code
+### Code
 
 Include the following files in porject,
 * __TBC__
 
-# Further Work
+## Further Work
 
-## Additional Login Services
+### Additional Login Services
 
 Integrate the following login service providers,
 
@@ -46,6 +46,6 @@ Integrate the following login service providers,
 * Meetup
 * Instagram
 
-# References
+## References
 
 Based on example found here, http://stackoverflow.com/questions/15592965/how-to-add-external-service-logins-to-an-already-existing-account-in-meteor
