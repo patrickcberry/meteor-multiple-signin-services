@@ -3,8 +3,16 @@
 ## TODO
 
 - [x] Clean up all code 
+- [ ] Update user display (*see detail below*)
 - [ ] Store profile info in a common application object attached to the Meteor.user object (email, name, locale)
 - [ ] Display details of each login service 
+
+### User display update
+
+- [ ] Do not display 'resume' in service
+- [x] Highligh the current logged on user - with icon
+- [ ] Highligh the current logged on user - with background colour
+- [ ] Display detailes from each service (modal linked to hover?)
 
 ----
 
@@ -34,6 +42,9 @@ Include the following files in porject,
 * __TBC__
 
 ## Further Work
+
+- [ ] Create a meteor package
+- [ ] Integrate with INSPINIA template styles
 
 ### Additional Login Services
 

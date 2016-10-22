@@ -3,53 +3,59 @@
 </head>
 
 <body>
-  <h1>meteor-multiple-authentication-services</h1>
+  <div class="container">
+    <h1>meteor-multiple-authentication-services</h1>
 
-  <p>
-    Application to resolve issue with multiple accounts being created for the 
-    same user (same email address) when using external authenticaton services (Google, Facebook, etc.)
-  </p>
+    <p>
+      Application to resolve issue with multiple accounts being created for the 
+      same user (same email address) when using external authenticaton services (Google, Facebook, etc.)
+    </p>
 
-  {{> loginButtons}}
+    {{> loginButtons}}
 
-  <hr>
+    <hr>
 
-  <p>Total users: {{userCount}}</p>
+    <p>Total users: {{userCount}}</p>
 
-  {{> users}}
-
+    {{> users}}
+  </div>
 </body>
 
 <template name="users">
 
-  {{#each users}}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>id</th>
+        <th>email</th>
+        <th>services</th>
+      </tr>
+    </thead>
 
-    <h3>User:</h3>
-    <p>
-      {{_id}}
-    </p>
-
-    <h3>Emails:</h3>
-    <ul>
-      {{#each emails}}
-        <li>{{address}}</li>
+    <tbody>
+      {{#each users}}
+      <tr>
+        <td>
+          {{#if isUser}}
+            <i class="fa fa-arrow-right fa-3"></i>
+          {{/if}}
+        </td>
+        <td>{{_id}}</td>
+        <td>
+          {{#each emails}}
+            <p>{{address}}</p>
+          {{/each}}        
+        </td>
+        <td>
+          {{#each services}}
+            <p>{{key}}</p>
+          {{/each}}        
+        </td>
+      </tr>
       {{/each}}
-    </ul>
-
-    <h3>Services:</h3>
-    <ul>
-      {{#each services}}
-        <li>{{key}}</li>
-        <ul>
-          <li>{{email}}</li>
-          <li>{{name}}</li>
-        </ul>
-      {{/each}}
-    </ul>    
-
-    <hr>
-
-  {{/each}}
-
+    </tbody>
+  </table>
+  
 </template>
 

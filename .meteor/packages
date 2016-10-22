@@ -38,4 +38,7 @@ accounts-github
 # Could not get working (have not been able to get working on localhost)
 # q42:accounts-microsoft
 
+twbs:bootstrap
+fortawesome:fontawesome
+
 meteortoys:allthings

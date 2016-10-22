@@ -24,6 +24,10 @@ Template.users.helpers ({
 		return arr;
 	},
 
+	isUser: function() {
+		return Meteor.userId() == this._id;
+	}
+
 });
 
 //
