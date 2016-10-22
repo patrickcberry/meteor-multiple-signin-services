@@ -55,4 +55,31 @@ Meteor.startup(function() {
       { upsert: true }
     );
 
+    // Add Meetup configuration entry
+
+    ServiceConfiguration.configurations.update(
+      { "service": "meetup" },
+      {
+        $set: {
+          "clientId": "e835sd1v2esak05jucq9g8nkip",
+          "secret": "tii8f2aplmo4k4vv7fo4lfdoee"
+        }
+      },
+      { upsert: true }
+    );
+
+
+    // Add Microsoft configuration entry
+/**
+    ServiceConfiguration.configurations.update(
+      { "service": "microsoft" },
+      {
+        $set: {
+          "clientId": "00000000481BD12C",
+          "secret": "2qdjDqJorPWELzNDmYyLJZf"
+        }
+      },
+      { upsert: true }
+    );
+*/
 });
