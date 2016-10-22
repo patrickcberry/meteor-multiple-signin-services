@@ -1,5 +1,8 @@
+//
 // Set up login services
+//
 Meteor.startup(function() {
+
     // Add Facebook configuration entry
 
     ServiceConfiguration.configurations.update(
@@ -26,7 +29,6 @@ Meteor.startup(function() {
       { upsert: true }
     );
 
-
     // Add GitHub configuration entry
     
     ServiceConfiguration.configurations.update(
@@ -40,8 +42,6 @@ Meteor.startup(function() {
       { upsert: true }
     );
     
-
-
     // Add Google configuration entry
 
     ServiceConfiguration.configurations.update(
@@ -67,7 +67,6 @@ Meteor.startup(function() {
       },
       { upsert: true }
     );
-
 
     // Add Microsoft configuration entry
 /**

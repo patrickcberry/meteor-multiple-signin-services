@@ -2,10 +2,9 @@
 
 ## TODO
 
-- [ ] Clean up all code 
+- [x] Clean up all code 
 - [ ] Store profile info in a common application object attached to the Meteor.user object (email, name, locale)
 - [ ] Display details of each login service 
-- [ ] Remove keys files to private repository
 
 ----
 
