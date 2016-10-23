@@ -51,10 +51,10 @@ When part of a package include the following features,
 Integrate the following login service providers,
 
 - [ ] Microsoft
-- [ ]  Linkedin
-- [ ]  Twitter
-- [ ]  Meetup
-- [ ]  Instagram
+- [x] Linkedin
+- [ ] Twitter
+- [ ] Meetup
+- [ ] Instagram
 
 ## References
 

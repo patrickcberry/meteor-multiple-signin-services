@@ -68,6 +68,21 @@ Meteor.startup(function() {
       { upsert: true }
     );
 
+    ServiceConfiguration.configurations.update(
+      { "service": "linkedin" },
+      {
+        $set: {
+          "clientId": "786vffdsxf544o",
+          "secret": "IzC07m1ggz4xAqgm"
+
+          // Callback URL - same as application
+        }
+      },
+      { upsert: true }
+    );
+
+
+
     // Add Microsoft configuration entry
 /**
     ServiceConfiguration.configurations.update(

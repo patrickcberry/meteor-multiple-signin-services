@@ -18,6 +18,14 @@ Meteor.publish('allUsers', function () {
 // The function below based on example found here, 
 // http://stackoverflow.com/questions/15592965/how-to-add-external-service-logins-to-an-already-existing-account-in-meteor
 
+// How to add a new login service provider
+// 1. If email is NOT stored in the email file check for email at ##1
+// 2. Create a new check for email address of existing service at ##2
+// 3. Store information provided from login service to appProfile at ##3
+// 4. ##4
+// 5. Copy appProfile data at ##5
+//
+
 Accounts.onCreateUser(function (options, user) {
 
     if (user.services) {
@@ -29,6 +37,14 @@ Accounts.onCreateUser(function (options, user) {
         }
         var service = _.keys(user.services)[0];
         var email = user.services[service].email;
+
+        // LinkedIn save email in emailAddress no email field
+
+        // Check for email address ##1
+
+        if ( service == "linkedin" ) {
+            email = user.services[service].emailAddress;            
+        }
 
 		if (!email) {
             if (user.emails) {
@@ -47,12 +63,13 @@ Accounts.onCreateUser(function (options, user) {
         var existingUser = Meteor.users.findOne({'emails.address': email});
 
         if (!existingUser) {
-            // check for email also in other services
+            // check for email also in other services ##2
             var existingGitHubUser = Meteor.users.findOne({'services.github.email': email});
             var existingGoogleUser = Meteor.users.findOne({'services.google.email': email});
             var existingTwitterUser = Meteor.users.findOne({'services.twitter.email': email});
             var existingFacebookUser = Meteor.users.findOne({'services.facebook.email': email});
-            var doesntExist = !existingGitHubUser && !existingGoogleUser && !existingTwitterUser && !existingFacebookUser;
+            var existingLinkedInUser = Meteor.users.findOne({'services.linkedin.emailAddress': email});
+            var doesntExist = !existingGitHubUser && !existingGoogleUser && !existingTwitterUser && !existingFacebookUser && !existingLinkedInUser;
             if (doesntExist) {
                 
                 // return the user as it came, because there he doesn't exist in the DB yet
@@ -60,7 +77,7 @@ Accounts.onCreateUser(function (options, user) {
                 //
                 // Set up the app-profile object
                 //
-                // Store information from different login services using a common naming convention
+                // Store information from different login services using a common naming convention ##3
 
                 var appProfile = { email: email };
 
@@ -86,6 +103,12 @@ Accounts.onCreateUser(function (options, user) {
                     // No additional information available from password
                     appProfile.picture = 'default-profile.gif';
 
+                } else if ( service == "linkedin" ) {
+                    appProfile.email = user.services[service].emailAddress;                     
+                    appProfile.firstName = user.services[service].firstName;                    
+                    appProfile.lastName = user.services[service].lastName;                    
+                    appProfile.picture = user.services[service].pictureUrl;                    
+
                 } else {
                     console.log("Error. User created with unknown login service: " + service );
                     console.log("app-profile not created in Accounts.onCreateUser due to unknown login service: " + service);
@@ -96,7 +119,10 @@ Accounts.onCreateUser(function (options, user) {
                 return user;
 
             } else {
-                existingUser = existingGitHubUser || existingGoogleUser || existingTwitterUser || existingFacebookUser;
+
+                // ##4
+
+                existingUser = existingGitHubUser || existingGoogleUser || existingTwitterUser || existingFacebookUser || existingLinkedInUser;
                 if (existingUser) {
                     if (user.emails) {
                         // user is signing in by email, we need to set it to the existing user
@@ -115,7 +141,7 @@ Accounts.onCreateUser(function (options, user) {
         existingUser.services[service] = user.services[service];
 
         //
-        // Copy across app-profile information to existing user if additional infomation is available from the new login service
+        // Copy across app-profile information to existing user if additional infomation is available from the new login service ##5
         //
 
         if ( service == "password") {
@@ -137,10 +163,6 @@ Accounts.onCreateUser(function (options, user) {
 
         } else if ( service == "google") {
 
-            console.log( existingUser.appProfile.picture );
-            console.log( existingUser.appProfile.picture == 'default-profile.gif');
-
-
             if ( !existingUser.appProfile.name || existingUser.appProfile.name.length <= 0 ) {
                 existingUser.appProfile.name = user.services[service].name;
             }
@@ -159,6 +181,18 @@ Accounts.onCreateUser(function (options, user) {
 
         } else if ( service == "githib") {
             // No additional information available from password
+
+        } else if ( service == "linkedin") {
+            if ( !existingUser.appProfile.firstName || existingUser.appProfile.firstName.length <= 0 ) {
+                existingUser.appProfile.firstName = user.services[service].firstName;
+            }
+            if ( !existingUser.appProfile.lastName || existingUser.appProfile.lastName.length <= 0 ) {
+                existingUser.appProfile.lastName = user.services[service].lastName;                    
+            }
+            if ( !existingUser.appProfile.picture || existingUser.appProfile.picture <= 0 || existingUser.appProfile.picture == 'default-profile.gif' ) {
+                existingUser.appProfile.picture = user.services[service].pictureUrl;                    
+            }
+
 
         } else {
             console.log("Error. User created with unknown login service: " + service );
