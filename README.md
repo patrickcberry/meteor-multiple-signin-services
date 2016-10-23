@@ -1,21 +1,5 @@
 # meteor-multiple-signin-services
 
-## TODO
-
-- [x] Clean up all code 
-- [ ] Update user display (*see detail below*)
-- [ ] Store profile info in a common application object attached to the Meteor.user object (email, name, locale)
-- [ ] Display details of each login service 
-
-### User display update
-
-- [ ] Do not display 'resume' in service
-- [x] Highligh the current logged on user - with icon
-- [ ] Highligh the current logged on user - with background colour
-- [ ] Display detailes from each service (modal linked to hover?)
-
-----
-
 ## The problem
 
 When using multiple login providers (accounts-password, accounts-google, accounts-facebook etc.) in Meteor each services 
@@ -28,33 +12,49 @@ Implement code in the Accounts.onCreateUser function to,
 * Determine the email address associated with the new account
 * Determine if the email address is associated with an existing account
 * If email exists, merge the two accounts
+* Create a common user profile object (appProfile) to same data returned from login services using common naming
 
 ## Usage
 
 ### Packages
 
 Include the following packages,
-* __TBC__
+* accounts-base
+* service-configuration
+* accounts-ui
+* accounts-password
+* accounts-google
+* accounts-facebook
+* accounts-github
+* twbs:bootstrap
+* fortawesome:fontawesome
 
 ### Code
 
 Include the following files in porject,
-* __TBC__
+* main.js - Accounts.onCreateUser
+* at_config.js - ServiceConfiguration.configurations
 
 ## Further Work
 
 - [ ] Create a meteor package
-- [ ] Integrate with INSPINIA template styles
+- [ ] Integrate with INSPINIA template styles (is this needed as I am using bootstrap styling)
+- [ ] Linking of appProfile data to service (auto update on login, update through edit form)
+
+When part of a package include the following features,
+- [ ] Form to edit application profile vales
+- [ ] Form to link application profile values to login service - auto update on login
+- [ ] Form to update profile values to login service - manual update
 
 ### Additional Login Services
 
 Integrate the following login service providers,
 
-* Microsoft
-* Linkedin
-* Twitter
-* Meetup
-* Instagram
+- [ ] Microsoft
+- [ ]  Linkedin
+- [ ]  Twitter
+- [ ]  Meetup
+- [ ]  Instagram
 
 ## References
 

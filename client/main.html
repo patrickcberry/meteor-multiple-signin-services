@@ -27,15 +27,17 @@
     <thead>
       <tr>
         <th></th>
-        <th>id</th>
-        <th>email</th>
-        <th>services</th>
+        <th class="col-md-2">id</th>
+        <th class="col-md-2">email</th>
+        <th class="col-md-2">services</th>
+        <th class="col-md-2">app-profile</th>
+        <th class="col-md-4"></th>
       </tr>
     </thead>
 
     <tbody>
       {{#each users}}
-      <tr>
+      <tr class='{{activeIfIsUser}}'>
         <td>
           {{#if isUser}}
             <i class="fa fa-arrow-right fa-3"></i>
@@ -49,9 +51,22 @@
         </td>
         <td>
           {{#each services}}
-            <p>{{key}}</p>
+            <p><i class="fa fa-{{key}}"></i> &nbsp;&nbsp; {{key}}</p>
           {{/each}}        
         </td>
+
+        <!-- App Profile -->
+        <td>
+          <img class='profile' src='{{appProfile.picture}}'>
+        </td>
+        <td>
+          <p>{{appProfile.name}}</p>
+          <p>{{appProfile.email}}</p>
+          <p>{{appProfile.firstName}}</p>
+          <p>{{appProfile.lastName}}</p>
+          <p>{{appProfile.locale}}</p>                  
+        </td>
+
       </tr>
       {{/each}}
     </tbody>

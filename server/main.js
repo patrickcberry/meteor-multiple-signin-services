@@ -54,8 +54,47 @@ Accounts.onCreateUser(function (options, user) {
             var existingFacebookUser = Meteor.users.findOne({'services.facebook.email': email});
             var doesntExist = !existingGitHubUser && !existingGoogleUser && !existingTwitterUser && !existingFacebookUser;
             if (doesntExist) {
+                
                 // return the user as it came, because there he doesn't exist in the DB yet
+
+                //
+                // Set up the app-profile object
+                //
+                // Store information from different login services using a common naming convention
+
+                var appProfile = { email: email };
+
+                if ( service == "password") {
+                    // No additional information available from password
+                    appProfile.picture = 'default-profile.gif';
+
+                } else if ( service == "facebook") {
+                    appProfile.name = user.services[service].name;                    
+                    appProfile.firstName = user.services[service].first_name;                    
+                    appProfile.lastName = user.services[service].last_name;                    
+                    appProfile.locale = user.services[service].locale;                    
+                    appProfile.picture = 'default-profile.gif';
+
+                } else if ( service == "google") {
+                    appProfile.name = user.services[service].name;                    
+                    appProfile.firstName = user.services[service].given_name;                    
+                    appProfile.lastName = user.services[service].family_name;                    
+                    appProfile.locale = user.services[service].locale;                    
+                    appProfile.picture = user.services[service].picture;                    
+
+                } else if ( service == "githib") {
+                    // No additional information available from password
+                    appProfile.picture = 'default-profile.gif';
+
+                } else {
+                    console.log("Error. User created with unknown login service: " + service );
+                    console.log("app-profile not created in Accounts.onCreateUser due to unknown login service: " + service);
+                }
+
+                user.appProfile = appProfile;
+
                 return user;
+
             } else {
                 existingUser = existingGitHubUser || existingGoogleUser || existingTwitterUser || existingFacebookUser;
                 if (existingUser) {
@@ -74,17 +113,58 @@ Accounts.onCreateUser(function (options, user) {
 
         // copy accross new service info
         existingUser.services[service] = user.services[service];
-/**
-        if ( existingUser.services.resume.loginTokens && existingUser.services.resume.loginTokens.length > 0 ) {
-        	// Logged into existing service - not sure how this can happen?
-        	existingUser.services.resume.loginTokens.push(
-            	user.services.resume.loginTokens[0]
-        	);
+
+        //
+        // Copy across app-profile information to existing user if additional infomation is available from the new login service
+        //
+
+        if ( service == "password") {
+            // No additional information available from password
+
+        } else if ( service == "facebook") {
+            if ( !existingUser.appProfile.name || existingUser.appProfile.name.length <= 0 ) {
+                existingUser.appProfile.name = user.services[service].name;                    
+            }
+            if ( !existingUser.appProfile.firstName || existingUser.appProfile.firstName.length <= 0 ) {
+                existingUser.appProfile.firstName = user.services[service].first_name;                    
+            }
+            if ( !existingUser.appProfile.lastName || existingUser.appProfile.lastName.length <= 0 ) {
+                existingUser.appProfile.lastName = user.services[service].last_name;                    
+            }
+            if ( !existingUser.appProfile.locale || existingUser.appProfile.locale.length <= 0 ) {
+                existingUser.appProfile.locale = user.services[service].locale;                    
+            }
+
+        } else if ( service == "google") {
+
+            console.log( existingUser.appProfile.picture );
+            console.log( existingUser.appProfile.picture == 'default-profile.gif');
+
+
+            if ( !existingUser.appProfile.name || existingUser.appProfile.name.length <= 0 ) {
+                existingUser.appProfile.name = user.services[service].name;
+            }
+            if ( !existingUser.appProfile.firstName || existingUser.appProfile.firstName.length <= 0 ) {
+                existingUser.appProfile.firstName = user.services[service].given_name;
+            }
+            if ( !existingUser.appProfile.lastName || existingUser.appProfile.lastName.length <= 0 ) {
+                existingUser.appProfile.lastName = user.services[service].family_name;                    
+            }
+            if ( !existingUser.appProfile.locale || existingUser.appProfile.locale.length <= 0 ) {
+                existingUser.appProfile.locale = user.services[service].locale;                    
+            }
+            if ( !existingUser.appProfile.picture || existingUser.appProfile.picture <= 0 || existingUser.appProfile.picture == 'default-profile.gif' ) {
+                existingUser.appProfile.picture = user.services[service].picture;                    
+            }
+
+        } else if ( service == "githib") {
+            // No additional information available from password
 
         } else {
-
+            console.log("Error. User created with unknown login service: " + service );
+            console.log("app-profile cound not be updated in Accounts.onCreateUser due to unknown login service: " + service);
         }
-*/
+
         Meteor.users.remove({_id: existingUser._id}); 	// remove existing record
         return existingUser;                  			// record is re-inserted
     }

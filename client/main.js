@@ -14,19 +14,32 @@ Template.users.helpers ({
 		// The object to be converted to an array
 		var obj = Meteor.users.findOne({_id:this._id}).services;
 
+		// remove the 'resume' entry in the services array
+		delete obj.resume;
+
 		// Convert the services object to an array
 		var arr = Object.keys(obj).map(function (key) { 
 			// Store the object key in the array object
 			obj[key].key = key;
 			// Return the array
 			return obj[key]; 
-		})
+		});
+
 		return arr;
 	},
 
 	isUser: function() {
 		return Meteor.userId() == this._id;
+	},
+
+	activeIfIsUser: function() {
+		if (Meteor.userId() == this._id) {
+			return 'info';
+		} else {
+			return '';
+		}
 	}
+
 
 });
 
